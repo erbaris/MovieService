@@ -18,8 +18,11 @@ import java.util.Optional;
 @Repository(BeanName.MOVIE_REPOSITORY)
 public class MovieRepository implements IMovieRepository{
     private static final String COUNT_SQL = "select count(*) from movies";
-    private static final String FIND_BY_MONTH = "select * from veterinarians where date_part('month', scene_date)";
+    private static final String FIND_BY_MONTH = "select * from movies where date_part('month', scene_date)";
+    private static final String FIND_BY_YEAR = "select * from movies where date_part('year', scene_date)";
+    private static final String FIND_BY_MONTH_BETWEEN = "select * from movies where  date_part('month', scene_date) between :begin and :end";
 
+    private static final String FIND_BY_YEAR_BETWEEN = "select * from movies where  date_part('year', scene_date) between :begin and :end";
     private static final String SAVE_MOVIE = "insert into movies (name, scene_date, rating, cost, imdb) values (:movieName, :sceneDate, :rating, :cost, :imdb)";
 
     private final NamedParameterJdbcTemplate m_namedParameterJdbcTemplate;
@@ -73,6 +76,46 @@ public class MovieRepository implements IMovieRepository{
         m_namedParameterJdbcTemplate.query(FIND_BY_MONTH, paramMap, (ResultSet rs) -> fillMovies(rs, movies));
 
         return movies.isEmpty() ? Optional.empty() : Optional.of(movies.get(0));
+    }
+
+    @Override
+    public Optional<Movie> findByYear(int year) {
+        var paramMap = new HashMap<String, Object>();
+        var movies = new ArrayList<Movie>();
+
+
+        paramMap.put("year", year);
+
+        m_namedParameterJdbcTemplate.query(FIND_BY_YEAR, paramMap, (ResultSet rs) -> fillMovies(rs, movies));
+
+        return movies.isEmpty() ? Optional.empty() : Optional.of(movies.get(0));
+    }
+
+    @Override
+    public Iterable<Movie> findBetweenMonth(int begin, int end) {
+        var paramMap = new HashMap<String, Object>();
+        var movies = new ArrayList<Movie>();
+
+        paramMap.put("begin", begin);
+        paramMap.put("end", end);
+
+        m_namedParameterJdbcTemplate.query(FIND_BY_MONTH_BETWEEN, paramMap, (ResultSet rs) -> fillMovies(rs, movies));
+
+        return movies;
+    }
+
+    @Override
+    public Iterable<Movie> findBetweenYear(int begin, int end) {
+        var paramMap = new HashMap<String, Object>();
+        var movies = new ArrayList<Movie>();
+
+        paramMap.put("begin", begin);
+        paramMap.put("end", end);
+
+        m_namedParameterJdbcTemplate.query(FIND_BY_YEAR_BETWEEN, paramMap, (ResultSet rs) -> fillMovies(rs, movies));
+
+        return movies;
+
     }
 
     @Override

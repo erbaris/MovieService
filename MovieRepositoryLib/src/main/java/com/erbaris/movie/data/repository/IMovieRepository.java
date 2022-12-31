@@ -7,4 +7,7 @@ import java.util.Optional;
 
 public interface IMovieRepository extends ICrudRepository<Movie, Long>{
     Optional<Movie> findByMonth(int month);
+    Optional<Movie> findByYear(int year);
+    Iterable<Movie> findBetweenMonth(int startMonth, int endMonth);
+    Iterable<Movie> findBetweenYear(int startYear, int endYear);
 }
