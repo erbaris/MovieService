@@ -7,14 +7,14 @@ public class MovieSave {
     public String movieName;
     public LocalDate sceneDate;
     public long rating;
-    public int real;
+    public double cost;
     public double imdb;
 
-    public MovieSave(long movieId, String movieName, LocalDate sceneDate, long rating, int real, double imdb) {
+    public MovieSave(long movieId, String movieName, LocalDate sceneDate, long rating, double cost, double imdb) {
         this.movieName = movieName;
         this.sceneDate = sceneDate;
         this.rating = rating;
-        this.real = real;
+        this.cost = cost;
         this.imdb = imdb;
     }
 

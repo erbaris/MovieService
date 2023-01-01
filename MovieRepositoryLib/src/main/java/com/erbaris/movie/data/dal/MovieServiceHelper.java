@@ -1,29 +1,33 @@
 package com.erbaris.movie.data.dal;
 
 import com.erbaris.movie.data.BeanName;
+import com.erbaris.movie.data.entity.Director;
+import com.erbaris.movie.data.entity.DirectorSave;
 import com.erbaris.movie.data.entity.Movie;
 import com.erbaris.movie.data.entity.MovieSave;
-import com.erbaris.movie.data.mapper.IMovieMapper;
 import com.erbaris.movie.data.repository.IMovieRepository;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
 
 @Component(BeanName.MOVIE_SERVICE_HELPER)
 public class MovieServiceHelper {
     private final IMovieRepository m_movieRepository;
-    private final IMovieMapper m_movieMapper;
 
-    public MovieServiceHelper(IMovieRepository movieRepository, IMovieMapper movieMapper) {
+
+    public MovieServiceHelper(IMovieRepository movieRepository) {
         m_movieRepository = movieRepository;
-        m_movieMapper = movieMapper;
     }
 
-    public MovieSave save(MovieSave movieDTO)
+    public MovieSave saveMovie(MovieSave movieSave)
     {
-        m_movieRepository.save(m_movieMapper.toMovie(movieDTO));
+        m_movieRepository.saveMovie(movieSave);
 
-        return movieDTO;
+        return movieSave;
+    }
+    public DirectorSave saveDirector(DirectorSave directorSave)
+    {
+        m_movieRepository.saveDirector(directorSave);
+
+        return directorSave;
     }
 
     public long countMovies()
@@ -31,22 +35,31 @@ public class MovieServiceHelper {
         return m_movieRepository.count();
     }
 
-    public Optional<Movie> findMovieByMonth(int month)
+    public Iterable<Movie> findMovieByMonth(int month)
     {
         return m_movieRepository.findByMonth(month);
     }
 
-    public Optional<Movie> findMovieByYear(int year)
+    public Iterable<Movie> findMovieByYear(int year)
     {
         return m_movieRepository.findByYear(year);
     }
-    public Iterable<Movie> findMovieByMonthBetween(int begin, int end)
+    public Iterable<Movie> findMovieByMonthYear(int month, int year)
     {
-        return m_movieRepository.findBetweenMonth(begin, end);
+        return m_movieRepository.findMonthYear(month, year);
     }
     public Iterable<Movie> findMovieByYearBetween(int begin, int end)
     {
         return m_movieRepository.findBetweenYear(begin, end);
     }
 
+    public Iterable<Director> findDirectorByMovieId(long id)
+    {
+        return m_movieRepository.findDirectorByMovideId(id);
+    }
+
+    public Iterable<Movie> findMoviesByDirectorId(long id)
+    {
+        return m_movieRepository.findMovieByDirectorId(id);
+    }
 }

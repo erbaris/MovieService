@@ -7,10 +7,10 @@ public class Movie {
     public String movieName;
     public LocalDate sceneDate;
     public long rating;
-    public int cost;
+    public double cost;
     public double imdb;
 
-    public Movie(long movieId, String movieName, LocalDate sceneDate, long rating, int cost, double imdb) {
+    public Movie(long movieId, String movieName, LocalDate sceneDate, long rating, double cost, double imdb) {
         this.movieId = movieId;
         this.movieName = movieName;
         this.sceneDate = sceneDate;

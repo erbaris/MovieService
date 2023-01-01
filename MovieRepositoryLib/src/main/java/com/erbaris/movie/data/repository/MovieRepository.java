@@ -1,8 +1,10 @@
 package com.erbaris.movie.data.repository;
 
 import com.erbaris.movie.data.BeanName;
+import com.erbaris.movie.data.entity.Director;
+import com.erbaris.movie.data.entity.DirectorSave;
 import com.erbaris.movie.data.entity.Movie;
-import com.erbaris.movie.data.mapper.IMovieMapper;
+import com.erbaris.movie.data.entity.MovieSave;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -18,20 +20,27 @@ import java.util.Optional;
 @Repository(BeanName.MOVIE_REPOSITORY)
 public class MovieRepository implements IMovieRepository{
     private static final String COUNT_SQL = "select count(*) from movies";
-    private static final String FIND_BY_MONTH = "select * from movies where date_part('month', scene_date)";
-    private static final String FIND_BY_YEAR = "select * from movies where date_part('year', scene_date)";
-    private static final String FIND_BY_MONTH_BETWEEN = "select * from movies where  date_part('month', scene_date) between :begin and :end";
+    private static final String FIND_BY_MONTH = "select * from movies where date_part('month', scene_date) = :month";
+    private static final String FIND_BY_YEAR = "select * from movies where date_part('year', scene_date) = :year";
+    private static final String FIND_BY_MONTH_YEAR = """
+            select * from movies where date_part('month', scene_date) = :month\s
+            and date_part('year', scene_date) = :year""";
 
     private static final String FIND_BY_YEAR_BETWEEN = "select * from movies where  date_part('year', scene_date) between :begin and :end";
     private static final String SAVE_MOVIE = "insert into movies (name, scene_date, rating, cost, imdb) values (:movieName, :sceneDate, :rating, :cost, :imdb)";
 
+    private static final String SAVE_DIRECTOR = "insert into directors (first_name, middle_name, family_name, birth_date) values (:firstName, :middleName, :familyName, :birthDate)";
+    private static final String FIND_DIRECTOR_BY_MOVIE_ID = "select * from get_directors_by_movie_id(:id)";
+    private static final String FIND_MOVIE_BY_DIRECTOR_ID = """
+                                                select
+                                                m.movie_id, m.name, m.scene_date, m.rating, m.cost, m.imdb\s
+                                                from movies m inner join movies_to_director mtd on mtd.movie_id = m.movie_id 
+                                                where mtd.director_id = :id""";
     private final NamedParameterJdbcTemplate m_namedParameterJdbcTemplate;
 
-    private final IMovieMapper m_movieMapper;
 
-    public MovieRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate, IMovieMapper movieMapper) {
+    public MovieRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         m_namedParameterJdbcTemplate = namedParameterJdbcTemplate;
-        m_movieMapper = movieMapper;
     }
 
     private static Movie getMovie(ResultSet rs) throws SQLException
@@ -40,11 +49,18 @@ public class MovieRepository implements IMovieRepository{
         var movieName = rs.getString(2);
         var sceneDate = rs.getDate(3).toLocalDate();
         var rating = rs.getLong(4);
-        var cost = rs.getInt(5);
+        var cost = rs.getDouble(5);
         var imdb = rs.getDouble(6);
 
 
         return new Movie(movieId, movieName, sceneDate, rating, cost, imdb);
+    }
+    private static Director getDirector(ResultSet rs) throws SQLException
+    {
+        var fullName = rs.getString(1);
+        var birthDate = rs.getDate(2).toLocalDate();
+
+        return new Director(fullName, birthDate);
     }
 
     private static void fillMovies(ResultSet rs, List<Movie> movies) throws SQLException
@@ -52,6 +68,12 @@ public class MovieRepository implements IMovieRepository{
         do
             movies.add(getMovie(rs));
         while (rs.next());
+    }
+    private static void fillDirectors(ResultSet rs, List<Director> directors) throws SQLException
+    {
+        do
+            directors.add(getDirector(rs));
+         while (rs.next());
     }
 
     @Override
@@ -65,7 +87,7 @@ public class MovieRepository implements IMovieRepository{
     }
 
     @Override
-    public Optional<Movie> findByMonth(int month)
+    public Iterable<Movie> findByMonth(int month)
     {
         var paramMap = new HashMap<String, Object>();
         var movies = new ArrayList<Movie>();
@@ -75,11 +97,11 @@ public class MovieRepository implements IMovieRepository{
 
         m_namedParameterJdbcTemplate.query(FIND_BY_MONTH, paramMap, (ResultSet rs) -> fillMovies(rs, movies));
 
-        return movies.isEmpty() ? Optional.empty() : Optional.of(movies.get(0));
+        return movies;
     }
 
     @Override
-    public Optional<Movie> findByYear(int year) {
+    public Iterable<Movie> findByYear(int year) {
         var paramMap = new HashMap<String, Object>();
         var movies = new ArrayList<Movie>();
 
@@ -88,18 +110,18 @@ public class MovieRepository implements IMovieRepository{
 
         m_namedParameterJdbcTemplate.query(FIND_BY_YEAR, paramMap, (ResultSet rs) -> fillMovies(rs, movies));
 
-        return movies.isEmpty() ? Optional.empty() : Optional.of(movies.get(0));
+        return movies;
     }
 
     @Override
-    public Iterable<Movie> findBetweenMonth(int begin, int end) {
+    public Iterable<Movie> findMonthYear(int month, int year) {
         var paramMap = new HashMap<String, Object>();
         var movies = new ArrayList<Movie>();
 
-        paramMap.put("begin", begin);
-        paramMap.put("end", end);
+        paramMap.put("month", month);
+        paramMap.put("year", year);
 
-        m_namedParameterJdbcTemplate.query(FIND_BY_MONTH_BETWEEN, paramMap, (ResultSet rs) -> fillMovies(rs, movies));
+        m_namedParameterJdbcTemplate.query(FIND_BY_MONTH_YEAR, paramMap, (ResultSet rs) -> fillMovies(rs, movies));
 
         return movies;
     }
@@ -119,17 +141,58 @@ public class MovieRepository implements IMovieRepository{
     }
 
     @Override
-    public <S extends Movie> S save(S movie) {
-        var paramSource = new BeanPropertySqlParameterSource(movie);
+    public MovieSave saveMovie(MovieSave movieSave) {
+        var paramSource = new BeanPropertySqlParameterSource(movieSave);
 
         paramSource.registerSqlType("sceneDate", Types.DATE);
         paramSource.registerSqlType("imdb", Types.DOUBLE);
+        paramSource.registerSqlType("cost", Types.DOUBLE);
         m_namedParameterJdbcTemplate.update(SAVE_MOVIE, paramSource);
 
-        return movie;
+        return movieSave;
     }
 
+    @Override
+    public DirectorSave saveDirector(DirectorSave director) {
+        var paramSource = new BeanPropertySqlParameterSource(director);
+
+        paramSource.registerSqlType("birth_date", Types.DATE);
+        m_namedParameterJdbcTemplate.update(SAVE_DIRECTOR, paramSource);
+
+        return director;
+    }
+
+
+    @Override
+    public Iterable<Director> findDirectorByMovideId(long id) {
+        var paramMap = new HashMap<String, Object>();
+        var directors = new ArrayList<Director>();
+
+        paramMap.put("id", id);
+
+        m_namedParameterJdbcTemplate.query(FIND_DIRECTOR_BY_MOVIE_ID, paramMap, (ResultSet rs) -> fillDirectors(rs, directors));
+
+        return directors;
+    }
+
+    @Override
+    public Iterable<Movie> findMovieByDirectorId(long id) {
+        var paramMap = new HashMap<String, Object>();
+        var movies = new ArrayList<Movie>();
+
+        paramMap.put("id", id);
+
+        m_namedParameterJdbcTemplate.query(FIND_MOVIE_BY_DIRECTOR_ID, paramMap, (ResultSet rs) -> fillMovies(rs, movies));
+
+        return movies;
+    }
     //------------------------------------------------------------------------------------------------------------------
+
+
+    @Override
+    public <S extends Movie> S save(S movie) {
+        return null;
+    }
 
     @Override
     public void delete(Movie entity) {
