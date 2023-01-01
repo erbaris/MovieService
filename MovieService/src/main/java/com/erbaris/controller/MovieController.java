@@ -45,7 +45,7 @@ public class MovieController {
     {
         return m_movieService.findMoviesByDirectorId(id);
     }
-    @GetMapping("movie/save")
+    @PostMapping("movie/save")
     public MovieDTO saveMovie(@RequestBody MovieDTO movieDTO)
     {
         return m_movieService.saveMovie(movieDTO);
