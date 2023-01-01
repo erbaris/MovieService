@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -8,16 +8,16 @@
 		<version>3.0.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
 	<groupId>com.erbaris</groupId>
-	<artifactId>MovieServiceApp</artifactId>
+	<artifactId>DirectorServiceApp</artifactId>
 	<version>1.0.0</version>
-	<name>MovieServiceApp</name>
+	<name>DirectorServiceApp</name>
 
 	<properties>
 		<java.version>17</java.version>
 		<org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
 	</properties>
-
 
 	<repositories>
 		<repository>
@@ -29,6 +29,8 @@
 			<url>https://raw.github.com/erbaris/JavaApp1_MVN_Repo_Ber/main</url>
 		</repository>
 	</repositories>
+
+
 
 	<dependencies>
 		<dependency>
@@ -44,6 +46,17 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jdbc</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.erbaris</groupId>
+			<artifactId>com-erbaris-library-movie-repository</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.csystem</groupId>
+			<artifactId>org-csystem-util-console</artifactId>
+			<version>6.2.0</version>
 		</dependency>
 
 		<dependency>
@@ -70,22 +83,11 @@
 			<version>6.0.0</version>
 		</dependency>
 
-		<dependency>
-			<groupId>com.erbaris</groupId>
-			<artifactId>com-erbaris-library-movie-repository</artifactId>
-			<version>1.0.0</version>
-		</dependency>
 
 		<dependency>
 			<groupId>org.csystem</groupId>
 			<artifactId>org-csystem-util-collection</artifactId>
 			<version>6.3.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.csystem</groupId>
-			<artifactId>org-csystem-util-console</artifactId>
-			<version>6.2.0</version>
 		</dependency>
 
 		<dependency>

@@ -156,7 +156,7 @@ public class MovieRepository implements IMovieRepository{
     public DirectorSave saveDirector(DirectorSave director) {
         var paramSource = new BeanPropertySqlParameterSource(director);
 
-        paramSource.registerSqlType("birth_date", Types.DATE);
+        paramSource.registerSqlType("birthDate", Types.DATE);
         m_namedParameterJdbcTemplate.update(SAVE_DIRECTOR, paramSource);
 
         return director;

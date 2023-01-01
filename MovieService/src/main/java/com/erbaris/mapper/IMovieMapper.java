@@ -2,6 +2,7 @@ package com.erbaris.mapper;
 
 import com.erbaris.dto.CountDTO;
 import com.erbaris.dto.MovieDTO;
+import com.erbaris.dto.MovieSaveDTO;
 import com.erbaris.dto.MoviesDTO;
 import com.erbaris.movie.data.entity.Movie;
 import com.erbaris.movie.data.entity.MovieSave;
@@ -16,7 +17,9 @@ public interface IMovieMapper {
     @Mapping(source = "movieName", target = "name")
     MovieDTO toMovieDTO(Movie movie);
     Movie toMovie(MovieSave movieSave);
-    MovieSave toMovieSave(MovieDTO movieDTO);
+    @Mapping(source = "name", target = "movieName")
+    MovieSave toMovieSave(MovieSaveDTO movieSaveDTO);
+
 
     default MoviesDTO toMoviesDTO(List<MovieDTO> movies)
     {

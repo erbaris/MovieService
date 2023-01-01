@@ -2,6 +2,7 @@ package com.erbaris.controller;
 
 import com.erbaris.dto.CountDTO;
 import com.erbaris.dto.MovieDTO;
+import com.erbaris.dto.MovieSaveDTO;
 import com.erbaris.dto.MoviesDTO;
 import com.erbaris.service.MovieService;
 import org.springframework.web.bind.annotation.*;
@@ -46,8 +47,8 @@ public class MovieController {
         return m_movieService.findMoviesByDirectorId(id);
     }
     @PostMapping("movie/save")
-    public MovieDTO saveMovie(@RequestBody MovieDTO movieDTO)
+    public MovieSaveDTO saveMovie(@RequestBody MovieSaveDTO movieSaveDTO)
     {
-        return m_movieService.saveMovie(movieDTO);
+        return m_movieService.saveMovie(movieSaveDTO);
     }
 }

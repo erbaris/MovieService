@@ -2,6 +2,7 @@ package com.erbaris.service;
 
 import com.erbaris.dto.CountDTO;
 import com.erbaris.dto.MovieDTO;
+import com.erbaris.dto.MovieSaveDTO;
 import com.erbaris.dto.MoviesDTO;
 import com.erbaris.mapper.IMovieMapper;
 import com.erbaris.movie.data.dal.MovieServiceHelper;
@@ -41,8 +42,10 @@ public class MovieService {
     {
         return m_iMovieMapper.toMoviesDTO(CollectionUtil.toList(m_movieServiceHelper.findMoviesByDirectorId(id), m_iMovieMapper::toMovieDTO));
     }
-    public MovieDTO saveMovie(MovieDTO movieDTO)
+    public MovieSaveDTO saveMovie(MovieSaveDTO movieSaveDTO)
     {
-        return m_iMovieMapper.toMovieDTO(m_iMovieMapper.toMovie(m_movieServiceHelper.saveMovie(m_iMovieMapper.toMovieSave(movieDTO))));
+        m_movieServiceHelper.saveMovie(m_iMovieMapper.toMovieSave(movieSaveDTO));
+        return movieSaveDTO;
+
     }
 }

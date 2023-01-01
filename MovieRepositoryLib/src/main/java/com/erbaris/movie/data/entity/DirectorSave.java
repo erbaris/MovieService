@@ -15,4 +15,36 @@ public class DirectorSave {
         this.familyName = familyName;
         this.birthDate = birthDate;
     }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public String getFamilyName() {
+        return familyName;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
+    public void setFamilyName(String familyName) {
+        this.familyName = familyName;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
 }
