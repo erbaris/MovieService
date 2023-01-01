@@ -5,12 +5,15 @@ import com.erbaris.dto.MovieDTO;
 import com.erbaris.dto.MoviesDTO;
 import com.erbaris.movie.data.entity.Movie;
 import com.erbaris.movie.data.entity.MovieSave;
+import com.karandev.util.mapstruct.annotation.ToType;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 
 @Mapper(implementationName = "MovieMapperImpl", componentModel = "spring")
 public interface IMovieMapper {
+    @Mapping(source = "movieName", target = "name")
     MovieDTO toMovieDTO(Movie movie);
     Movie toMovie(MovieSave movieSave);
     MovieSave toMovieSave(MovieDTO movieDTO);
