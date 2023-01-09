@@ -15,9 +15,8 @@
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.3.Final/mapstruct-processor-1.5.3.Final.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.3.Final/mapstruct-1.5.3.Final.jar" />
         </processorPath>
-        <module name="com-erbaris-movie-webservice-app" />
         <module name="com-erbaris-directory-webservice-app" />
-        <module name="MovieServiceApp" />
+        <module name="com-erbaris-movie-webservice-app" />
         <module name="com-erbaris-library-movie-repository" />
       </profile>
     </annotationProcessing>

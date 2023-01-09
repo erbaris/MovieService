@@ -13,6 +13,7 @@
     <artifactId>MovieServiceApp</artifactId>
     <version>1.0.0</version>
     <name>MovieServiceApp</name>
+    <packaging>pom</packaging>
 
     <repositories>
         <repository>
