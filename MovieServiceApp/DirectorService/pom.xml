@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.erbaris</groupId>
+		<artifactId>MovieServiceApp</artifactId>
+		<version>1.0.0</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<groupId>com.erbaris</groupId>
+	<artifactId>com-erbaris-directory-webservice-app</artifactId>
+	<version>1.0.0</version>
+	<name>com-erbaris-directory-webservice-app</name>
+
+	<properties>
+		<java.version>17</java.version>
+		<org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
+	</properties>
+
+	<repositories>
+
+		<repository>
+			<id>JavaApp1-Jun-2022-BER</id>
+			<url>https://raw.github.com/erbaris/JavaApp1_MVN_Repo_Ber/main</url>
+		</repository>
+	</repositories>
+
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+
+		<dependency>
+			<groupId>com.erbaris</groupId>
+			<artifactId>com-erbaris-library-movie-repository</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.csystem</groupId>
+			<artifactId>org-csystem-util-console</artifactId>
+			<version>6.2.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.5.1</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.csystem</groupId>
+			<artifactId>org-csystem-util-collection</artifactId>
+			<version>6.3.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+
+
+</project>
