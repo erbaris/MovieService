@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">AndroidClient</string>
+    <string name="find_by_year_text_hint">Enter Year</string>
+    <string name="get_button_text">FindByYear</string>
 </resources>
