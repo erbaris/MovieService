@@ -1,5 +1,6 @@
 package com.erbaris.android.app.androidclient
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -35,27 +36,14 @@ class MainActivity : AppCompatActivity() {
         init()
 
     }
-    fun findByYearButtonClicked()
+    fun startFindByYear()
     {
-        val movieByYearSearch = RetrofitUtil.createRetrofit(MOVIE_BASE_URL).create(
-            IMovieByYearSearch::class.java)
-        val call = movieByYearSearch.findByYear("2021")
-        call.enqueue(object: Callback<Movies> {
-            override fun onResponse(call: Call<Movies>, response: Response<Movies>) {
-                val movies = response.body()
+        Intent(this, FindByYearActivity::class.java).apply { startActivity(this) }
+    }
 
-                if(movies != null){
-                    val movieNames = movies.movies.map { it.name + it.sceneDate.toString() + it.cost}.toString()
-                    Toast.makeText(this@MainActivity, movieNames, Toast.LENGTH_LONG).show()
-                }
-                else
-                    Toast.makeText(this@MainActivity, "Problem Occurs", Toast.LENGTH_LONG).show()
-            }
-
-            override fun onFailure(call: Call<Movies>, t: Throwable) {
-                Toast.makeText(this@MainActivity, t.message, Toast.LENGTH_LONG).show()
-                call.cancel()
-            }
-        })
+    fun exitButtonClickCallback()
+    {
+        Toast.makeText(this, R.string.message_text_goodbye, Toast.LENGTH_LONG).show()
+        finish()
     }
 }

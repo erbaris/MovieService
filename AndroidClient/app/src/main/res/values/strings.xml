@@ -1,5 +1,9 @@
 <resources>
-    <string name="app_name">AndroidClient</string>
+    <string name="app_name">AndroidClient - Movie Service</string>
+    <string name="message_text_goodbye">Baris Movie Service</string>
     <string name="find_by_year_text_hint">Enter Year</string>
-    <string name="get_button_text">FindByYear</string>
+    <string name="findbyyear_start_button_text">FindByYear</string>
+    <string name="find_by_year_page_text">Find By Year</string>
+    <string name="find_by_year_search_button_text">Search</string>
+    <string name="exit">Exit</string>
 </resources>
