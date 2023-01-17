@@ -7,9 +7,8 @@ import androidx.databinding.DataBindingUtil
 import com.erbaris.android.app.androidclient.api.IMovieByYearSearch
 import com.erbaris.android.app.androidclient.api.MOVIE_BASE_URL
 import com.erbaris.android.app.androidclient.data.entity.Movies
+import com.erbaris.android.app.androidclient.databinding.ActivityFindByYearBinding
 import com.erbaris.android.app.androidclient.viewmodel.FindByYearActivityViewModel
-import com.erbaris.android.app.movieclient.R
-import com.erbaris.android.app.movieclient.databinding.ActivityFindByYearBinding
 import com.karandev.util.retrofit.RetrofitUtil
 import retrofit2.Call
 import retrofit2.Callback

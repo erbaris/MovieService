@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace 'com.erbaris.android.app.movieclient'
+    namespace 'com.erbaris.android.app.androidclient'
     compileSdk 33
 
     defaultConfig {
