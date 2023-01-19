@@ -5,5 +5,8 @@
     <string name="findbyyear_start_button_text">FindByYear</string>
     <string name="find_by_year_page_text">Find By Year</string>
     <string name="find_by_year_search_button_text">Search</string>
+    <string name="no_movie_message"> There is no Movie</string>
+    <string name="problem_message">Problem Occurred</string>
+    <string name="problem_try_again_message">Please try again later</string>
     <string name="exit">Exit</string>
 </resources>
