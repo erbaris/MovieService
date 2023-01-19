@@ -23,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/find_by_year_text_hint"
+            android:text="@={viewModel.year}"
             />
 
         <Button
@@ -31,6 +32,11 @@
             android:layout_height="wrap_content"
             android:onClick="@{() -> viewModel.searchButton()}"
             android:text="@string/find_by_year_search_button_text" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:adapter="@{viewModel.adapter}"
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 

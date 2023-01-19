@@ -49,7 +49,7 @@ class FindByYearActivity : AppCompatActivity() {
         call.putQueue({_, r -> responseCallback(r)}) {c, r -> failCallback(c, r)}
     }
 
-    fun exitButtonClicked() = finish()
+
 
 
     private fun responseCallback(response: Response<Movies>)
