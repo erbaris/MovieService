@@ -4,6 +4,16 @@ import java.time.LocalDate;
 
 public class Movie {
     public String name;
-    public LocalDate sceneDate;
-    public double cost;
+    public String sceneDate;
+    public String cost;
+
+
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "name='" + name + '\'' +
+                ", sceneDate='" + sceneDate + '\'' +
+                ", cost='" + cost + '\'' +
+                '}';
+    }
 }

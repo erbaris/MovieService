@@ -68,6 +68,7 @@ class FindByYearActivity : AppCompatActivity() {
     private fun failCallback(call: Call<Movies>, ex: Throwable)
     {
         Toast.makeText(this, R.string.problem_try_again_message, Toast.LENGTH_LONG).show()
+        Toast.makeText(this, ex.message!!, Toast.LENGTH_LONG).show()
         Log.d("movies_response", ex.message!!)
         call.cancel()
     }
